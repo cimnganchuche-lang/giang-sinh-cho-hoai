@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>🎄 Giáng Sinh cho Hoài 🎄</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background: linear-gradient(#ffd1dc,#ffb6c1);
+  font-family: Arial, sans-serif;
+  overflow:hidden;
+}
+
+#login{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  background:#fff;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+#login input{
+  padding:15px;
+  font-size:20px;
+  width:220px;
+  border-radius:10px;
+  border:none;
+  text-align:center;
+}
+
+#login button{
+  margin-top:15px;
+  padding:10px 20px;
+  font-size:18px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#ff5c8a;
+  color:#fff;
+}
+
+#gift{
+  display:none;
+}
+
+#content{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#9c7a7a;
+  color:#fff;
+  padding:30px;
+  border-radius:20px;
+  width:70%;
+  text-align:center;
+}
+
+.santa{
+  position:absolute;
+  top:20%;
+  left:-200px;
+  font-size:80px;
+  animation:fly 5s linear forwards;
+}
+
+@keyframes fly{
+  to{ left:110%; }
+}
+
+.snow{
+  position:absolute;
+  top:-10px;
+  color:white;
+  animation: fall linear infinite;
+}
+
+@keyframes fall{
+  to{ transform:translateY(110vh); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="noel.mp3" loop></audio>
+
+<div id="login">
+  <h2>🔐 Nhập mật khẩu</h2>
+  <input id="pass" type="password" placeholder="••••••••">
+  <br>
+  <button onclick="check()">OK</button>
+</div>
+
+<div id="gift">
+  <button onclick="openGift()">🎁 MỞ QUÀ</button>
+</div>
+
+<div id="content">
+  <h1>🎄 Merry Christmas Hoài 🎄</h1>
+  <p>
+    Hoài à,<br><br>
+    Giáng Sinh đến rồi, t chúc m lúc nào cũng cười nhiều như bây giờ,
+    buồn thì có người bên cạnh, mệt thì có chỗ dựa.
+    Ngoài kia có lạnh cỡ nào thì mong tim m vẫn luôn ấm nhaaa 💖<br><br>
+    Chúc m mọi điều tốt đẹp nhất,
+    hơi sến chút nhưng là sến thật lòng đó 😆<br><br>
+    — Bích —
+  </p>
+</div>
+
+<script>
+let count=0;
+
+function check(){
+  if(document.getElementById("pass").value==="22082012Hoai"){
+    document.getElementById("login").style.display="none";
+    document.getElementById("gift").style.display="block";
+    document.getElementById("music").play();
+    snow();
+  }else{
+    alert("Sai mật khẩu rồi 😝");
+  }
+}
+
+function openGift(){
+  count++;
+  if(count>=10){
+    document.getElementById("gift").style.display="none";
+    document.body.insertAdjacentHTML("beforeend","<div class='santa'>🎅</div>");
+    document.getElementById("content").style.display="block";
+  }
+}
+
+function snow(){
+  setInterval(()=>{
+    let s=document.createElement("div");
+    s.className="snow";
+    s.innerHTML="❄";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(3+Math.random()*5)+"s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),8000);
+  },200);
+}
+</script>
+
+</body>
+</html>
