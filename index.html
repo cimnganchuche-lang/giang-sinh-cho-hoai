@@ -67,6 +67,21 @@ body{
   z-index:99;
 }
 
+/* SANTA */
+#santa{
+  position:absolute;
+  font-size:48px;
+  top:20%;
+  left:-100px;
+  display:none;
+  z-index:50;
+  animation:santaRun 6s linear forwards;
+}
+@keyframes santaRun{
+  from{left:-120px}
+  to{left:110%}
+}
+
 /* MAIL */
 #mail{
   position:absolute;
@@ -109,6 +124,7 @@ body{
 </audio>
 
 <div id="freeze"></div>
+<div id="santa">🧑‍🎄</div>
 
 <!-- LOGIN -->
 <div id="login">
@@ -139,6 +155,7 @@ body{
 /* ===== CONFIG ===== */
 const PASSWORD="22082012Hoai";
 const music=document.getElementById("music");
+const santa=document.getElementById("santa");
 
 /* ===== LOGIN ===== */
 function checkPass(){
@@ -185,8 +202,7 @@ function showQuestion(){
 
 /* ===== GIFT TROLL ===== */
 const icons=["🎁","🍎","🧱","💣"];
-let gifts=[];
-let moveTimer;
+let gifts=[], moveTimer, santaCount=0;
 
 function startGiftTroll(){
   for(let i=0;i<7;i++){
@@ -198,7 +214,16 @@ function startGiftTroll(){
     gifts.push(g);
   }
   moveGifts();
-  moveTimer=setInterval(moveGifts,220);
+  moveTimer=setInterval(()=>{
+    moveGifts();
+
+    // cho ông già Noel chạy ngẫu nhiên
+    if(Math.random()<0.1 && santaCount<3){
+      runSanta();
+      santaCount++;
+    }
+
+  },220);
 
   setTimeout(endGift,10000);
 }
@@ -211,10 +236,8 @@ function moveGifts(){
 }
 
 function fakeClick(g){
-  // đứng hình giả
   freeze.style.display="block";
   setTimeout(()=>freeze.style.display="none",1500);
-
   alert("❌ Sai rồi 😛");
   g.innerText=icons[Math.floor(Math.random()*icons.length)];
 }
@@ -223,6 +246,16 @@ function endGift(){
   clearInterval(moveTimer);
   gifts.forEach(g=>g.remove());
   mail.style.display="block";
+}
+
+/* ===== SANTA ===== */
+function runSanta(){
+  santa.style.display="block";
+  santa.style.top=Math.random()*60+10+"%";
+  santa.style.animation="none";
+  void santa.offsetWidth;
+  santa.style.animation="santaRun 6s linear forwards";
+  setTimeout(()=>santa.style.display="none",6000);
 }
 
 /* ===== LETTER ===== */
