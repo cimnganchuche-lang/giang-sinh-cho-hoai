@@ -3,94 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎄 Quà Giáng Sinh 🎁</title>
+<title>🎁 Mini Game Giáng Sinh</title>
 
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;
   height:100vh;
-  background:#ffd6e3;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  background:linear-gradient(135deg,#ff9acb,#ffd1e8);
   font-family:"Segoe UI",sans-serif;
   overflow:hidden;
 }
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 #login{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#loginBox{
   background:white;
   padding:25px;
-  border-radius:18px;
-  text-align:center;
+  border-radius:22px;
   width:90%;
   max-width:320px;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  text-align:center;
+  box-shadow:0 15px 40px rgba(255,92,138,.45);
 }
-#login h3{margin-bottom:15px}
-#login input{
+#loginBox h3{color:#ff3b7a}
+#loginBox input{
   width:100%;
   padding:12px;
-  border-radius:10px;
+  border-radius:12px;
   border:2px solid #ff7aa2;
   font-size:16px;
-  outline:none;
 }
-#login button{
+#loginBox button{
   margin-top:15px;
-  padding:10px 25px;
+  padding:12px 30px;
   border:none;
-  border-radius:20px;
+  border-radius:30px;
   background:#ff5c8a;
   color:white;
   font-size:16px;
 }
 
-/* ===== MAIN ===== */
-#main{display:none; width:100%; height:100%; position:relative}
+/* MAIN */
+#main{display:none;width:100%;height:100%;position:relative}
 
-/* MỞ QUÀ */
-#giftBtn{
+/* PROGRESS */
+#progressBox{
   position:absolute;
-  padding:14px 26px;
-  border-radius:30px;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:75%;
+  height:18px;
+  background:#ffd1e8;
+  border-radius:10px;
+  overflow:hidden;
+}
+#progress{
+  height:100%;
+  width:0%;
+  background:#ff3b7a;
+  transition:.3s;
+}
+
+/* TEXT TROLL */
+#msg{
+  position:absolute;
+  top:50px;
+  width:100%;
+  text-align:center;
+  color:#ff3b7a;
+  font-weight:600;
+}
+
+/* GIFT */
+#gift{
+  position:absolute;
+  width:85px;
+  height:85px;
+  border-radius:50%;
   border:none;
   background:white;
-  color:#ff3b7a;
-  font-size:18px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.2s;
+  font-size:36px;
+  box-shadow:0 10px 25px rgba(255,92,138,.4);
 }
 
 /* NOEL */
 #noel{
   position:absolute;
-  top:15%;
+  top:20%;
   left:-150px;
-  font-size:50px;
+  font-size:55px;
   display:none;
-  animation:noelRun 6s linear forwards;
 }
 @keyframes noelRun{
   from{left:-150px}
   to{left:110%}
 }
 
-/* THƯ */
+/* LETTER */
 #letter{
   display:none;
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,.4);
+  background:rgba(0,0,0,.45);
   justify-content:center;
   align-items:center;
 }
 #letterBox{
   background:white;
-  padding:25px;
-  border-radius:20px;
+  padding:28px;
+  border-radius:25px;
   max-width:340px;
   text-align:center;
   animation:pop .4s ease;
@@ -100,20 +129,19 @@ body{
   to{transform:scale(1);opacity:1}
 }
 #letterBox h2{color:#ff3b7a}
-#letterBox p{line-height:1.6}
 
-/* PHÁO HOA */
+/* FIREWORK */
 .fire{
   position:absolute;
-  width:10px;
-  height:10px;
-  background:gold;
+  width:12px;
+  height:12px;
+  background:radial-gradient(circle,#fff,#ff5c8a);
   border-radius:50%;
-  animation:boom 1s ease-out forwards;
+  animation:boom 1.2s forwards;
 }
 @keyframes boom{
   from{transform:scale(1);opacity:1}
-  to{transform:scale(5);opacity:0}
+  to{transform:scale(6);opacity:0}
 }
 </style>
 </head>
@@ -122,95 +150,115 @@ body{
 
 <!-- LOGIN -->
 <div id="login">
-  <h3>🔐 Nhập mật khẩu</h3>
-  <input type="password" id="pass" placeholder="Mật khẩu">
-  <button onclick="checkPass()">VÀO</button>
+  <div id="loginBox">
+    <h3>🔐 Nhập mật khẩu</h3>
+    <input type="password" id="pass" placeholder="Mật khẩu">
+    <button onclick="checkPass()">VÀO</button>
+  </div>
 </div>
 
 <!-- MAIN -->
 <div id="main">
-  <button id="giftBtn">🎁 MỞ QUÀ</button>
+  <div id="progressBox"><div id="progress"></div></div>
+  <div id="msg">Bắt đầu đi 😏</div>
+  <button id="gift">🎁</button>
   <div id="noel">🧑‍🎄</div>
 
   <div id="letter">
     <div id="letterBox">
-      <h2>🎄 Gửi Hoài Giáng Sinh Vui Vẻ Nhé</h2>
+      <h2>🎄 Giáng Sinh Vui Vẻ Hoài nhé</h2>
       <p>
-        Giáng Sinh này chúc bạn sống thoải mái hơn một chút,<br>
-        bớt nghĩ nhiều, bớt mệt đầu.<br><br>
-        Làm điều bạn thích, tránh điều bạn ghét,<br>
-        còn lại để thời gian lo.<br><br>
-        Vui là được, không cần phải cố 🎅✨<br><br>
-        <b>Web này tạo dành riêng cho bạn – Hoài yêu quý 💗</b>
+        Bạn đã bị troll kha khá 😈<br><br>
+        Nhưng mà cố tới đây là giỏi lắm rồi 💗<br><br>
+        Chúc bạn luôn vui vẻ và nhẹ lòng nha 🎅✨
       </p>
     </div>
   </div>
 </div>
 
 <audio id="music" src="nhac.mp3" loop></audio>
+<audio id="fail" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
 <script>
-const PASSWORD = "22082012Hoai";
-let count = 0;
+const PASSWORD="22082012Hoai";
+let progress=0;
+let speed=1200;
+let fake=true;
 
-const gift = document.getElementById("giftBtn");
-const main = document.getElementById("main");
-const music = document.getElementById("music");
-const noel = document.getElementById("noel");
-const letter = document.getElementById("letter");
+const gift=document.getElementById("gift");
+const bar=document.getElementById("progress");
+const msg=document.getElementById("msg");
+const noel=document.getElementById("noel");
+const music=document.getElementById("music");
+const fail=document.getElementById("fail");
+const letter=document.getElementById("letter");
 
 function checkPass(){
-  if(document.getElementById("pass").value === PASSWORD){
-    document.getElementById("login").style.display="none";
+  if(pass.value===PASSWORD){
+    login.style.display="none";
     main.style.display="block";
     moveGift();
-  }else{
-    alert("Sai mật khẩu rồi 😛");
-  }
+    timer=setInterval(moveGift,speed);
+  }else alert("Sai mật khẩu 😛");
 }
 
 function moveGift(){
-  const x = Math.random()*(window.innerWidth-150);
-  const y = Math.random()*(window.innerHeight-100);
-  gift.style.left = x+"px";
-  gift.style.top = y+"px";
+  const x=Math.random()*(innerWidth-120);
+  const y=Math.random()*(innerHeight-200);
+  gift.style.left=x+"px";
+  gift.style.top=y+"px";
 }
 
-gift.onclick = ()=>{
-  count++;
+let timer;
 
-  // chạy lung tung
-  moveGift();
+gift.onclick=()=>{
+  fail.play();
 
-  // nhỏ dần
-  let scale = Math.max(0.4, 1 - count*0.07);
-  gift.style.transform = `scale(${scale})`;
+  if(progress<90){
+    progress+=10;
+    msg.innerText=["Cố nữa đi 😏","Nhanh tay lên 😈","Sắp được rồi đó 🤭"][Math.floor(Math.random()*3)];
+  }else if(progress<99){
+    progress=99;
+    msg.innerText="Ơ kìa… sao đứng 99% vậy 😈";
+  }else{
+    msg.innerText="Bấm nữa đi 😏";
+  }
 
-  // ông già Noel chạy 2 lần
-  if(count === 3 || count === 6){
+  bar.style.width=progress+"%";
+
+  speed=Math.max(350,speed-100);
+  clearInterval(timer);
+  timer=setInterval(moveGift,speed);
+
+  if(progress===30||progress===60){
     noel.style.display="block";
     noel.style.animation="none";
     void noel.offsetWidth;
-    noel.style.animation="noelRun 6s linear forwards";
+    noel.style.animation="noelRun 5s linear forwards";
   }
 
-  // lần 10
-  if(count >= 10){
-    gift.style.display="none";
-    music.play();
-    fireworks();
-    setTimeout(()=>letter.style.display="flex",1000);
+  if(progress===99 && fake){
+    fake=false;
+    setTimeout(()=>{
+      progress=100;
+      bar.style.width="100%";
+      clearInterval(timer);
+      gift.style.display="none";
+      music.play();
+      fireworks();
+      setTimeout(()=>letter.style.display="flex",800);
+    },1500);
   }
 };
 
 function fireworks(){
-  for(let i=0;i<40;i++){
-    const f = document.createElement("div");
+  for(let i=0;i<50;i++){
+    const f=document.createElement("div");
     f.className="fire";
-    f.style.left = Math.random()*window.innerWidth+"px";
-    f.style.top = Math.random()*window.innerHeight+"px";
+    f.style.left=Math.random()*innerWidth+"px";
+    f.style.top=Math.random()*innerHeight+"px";
     document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1000);
+    setTimeout(()=>f.remove(),1200);
   }
 }
 </script>
