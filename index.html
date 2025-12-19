@@ -2,205 +2,266 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎄 Noel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🎄 Noel Bình An</title>
 
 <style>
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;
   height:100vh;
-  background:linear-gradient(135deg,#ff9acb,#ffd1e8);
+  background:#1b1b1b;
   font-family:"Segoe UI",sans-serif;
   overflow:hidden;
+  color:#fff;
 }
 
 /* LOGIN */
 #login{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  position:absolute;inset:0;
+  display:flex;justify-content:center;align-items:center;
 }
 #loginBox{
-  background:white;
-  padding:25px;
-  border-radius:22px;
-  width:90%;
-  max-width:320px;
-  text-align:center;
-  box-shadow:0 15px 40px rgba(255,92,138,.45);
+  background:#fff;color:#333;
+  padding:25px;border-radius:18px;
+  width:90%;max-width:320px;text-align:center;
 }
-#loginBox h3{color:#ff3b7a}
 #loginBox input{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:2px solid #ff7aa2;
-  font-size:16px;
+  width:100%;padding:12px;
+  border-radius:10px;border:2px solid #ff7aa2;
 }
 #loginBox button{
   margin-top:15px;
-  padding:12px 30px;
-  border:none;
-  border-radius:30px;
-  background:#ff5c8a;
-  color:white;
-  font-size:16px;
+  padding:10px 25px;
+  border:none;border-radius:20px;
+  background:#ff5c8a;color:#fff;
 }
 
-/* MAIN */
-#main{display:none;width:100%;height:100%;position:relative}
+/* QUIZ */
+#quiz{
+  position:absolute;inset:0;
+  display:none;justify-content:center;align-items:center;
+  padding:20px;text-align:center;
+}
+#quizBox{max-width:360px}
+.answer{
+  margin-top:12px;padding:10px;
+  border-radius:20px;
+  background:rgba(255,255,255,.15);
+}
+.answer.disabled{opacity:.4;pointer-events:none}
 
 /* GIFT */
-#gift{
+.gift{
   position:absolute;
-  font-size:40px;
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  border:none;
-  background:white;
-  box-shadow:0 10px 25px rgba(255,92,138,.4);
-}
-
-/* MESSAGE */
-#msg{
-  position:absolute;
-  top:30px;
-  width:100%;
-  text-align:center;
-  color:#ff3b7a;
-  font-weight:600;
-}
-
-/* LETTER ICON */
-#letterIcon{
-  display:none;
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  font-size:70px;
+  font-size:38px;
   cursor:pointer;
-  animation:float 1.5s ease-in-out infinite;
+  user-select:none;
 }
-@keyframes float{
-  0%,100%{transform:translate(-50%,-50%)}
-  50%{transform:translate(-50%,-60%)}
+
+/* FAKE FREEZE */
+#freeze{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.2);
+  display:none;
+  z-index:99;
+}
+
+/* MAIL */
+#mail{
+  position:absolute;
+  font-size:42px;
+  display:none;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  cursor:pointer;
 }
 
 /* LETTER */
 #letter{
-  display:none;
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  justify-content:center;
-  align-items:center;
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;justify-content:center;align-items:center;
 }
 #letterBox{
-  background:white;
-  padding:28px;
-  border-radius:25px;
+  background:#fff;color:#333;
+  padding:25px;border-radius:20px;
   max-width:340px;
-  text-align:left;
-  line-height:1.7;
 }
-#letterBox p{
-  margin:8px 0;
-  opacity:0;
-  transform:translateY(5px);
-  transition:.4s;
+#letterBox p{line-height:1.7}
+
+/* SNOW */
+.snow{
+  position:absolute;
+  animation:snowFall linear infinite;
 }
-#letterBox p.show{
-  opacity:1;
-  transform:translateY(0);
+@keyframes snowFall{
+  from{transform:translateY(-10px)}
+  to{transform:translateY(110vh)}
 }
 </style>
 </head>
 
 <body>
 
+<audio id="music" loop>
+  <source src="nhac.mp3" type="audio/mpeg">
+</audio>
+
+<div id="freeze"></div>
+
 <!-- LOGIN -->
 <div id="login">
   <div id="loginBox">
     <h3>🔐 Nhập mật khẩu</h3>
-    <input type="password" id="pass" placeholder="Mật khẩu">
+    <input id="pass" type="password" placeholder="Mật khẩu">
     <button onclick="checkPass()">VÀO</button>
   </div>
 </div>
 
-<!-- MAIN -->
-<div id="main">
-  <div id="msg">Không cần làm gì cả.</div>
-  <button id="gift">🎁</button>
-  <div id="letterIcon">✉️</div>
+<!-- QUIZ -->
+<div id="quiz">
+  <div id="quizBox"></div>
+</div>
 
-  <div id="letter">
-    <div id="letterBox">
-      <p>🎄 Giáng Sinh tới rồi.</p>
-      <p>🤷‍♂️ T không biết<br>m ổn hay không.</p>
-      <p>⏸️ Nhưng thôi,<br>tối nay<br>nghỉ một chút đi.</p>
-      <p>❄️ Trời lạnh.<br>🧥 Nhớ giữ ấm.</p>
-      <p>🫤 Vậy thôi.<br>🎁 Noel bình an.</p>
-    </div>
+<!-- MAIL -->
+<div id="mail">✉️</div>
+
+<!-- LETTER -->
+<div id="letter">
+  <div id="letterBox">
+    <h3>🎄 Noel Bình An</h3>
+    <p id="letterText"></p>
   </div>
 </div>
 
-<audio id="music" src="nhac.mp3" loop></audio>
-
 <script>
+/* ===== CONFIG ===== */
 const PASSWORD="22082012Hoai";
-
-const gift=document.getElementById("gift");
-const letterIcon=document.getElementById("letterIcon");
-const letter=document.getElementById("letter");
 const music=document.getElementById("music");
-const lines=document.querySelectorAll("#letterBox p");
-const msg=document.getElementById("msg");
 
-let moveInterval;
-
+/* ===== LOGIN ===== */
 function checkPass(){
   if(pass.value===PASSWORD){
     login.style.display="none";
-    main.style.display="block";
-    startGift();
+    quiz.style.display="flex";
+    music.play();
+    startSnow();
+    showQuestion();
   }else alert("Sai mật khẩu 😛");
 }
 
-function moveGift(){
-  const x=Math.random()*(innerWidth-120);
-  const y=Math.random()*(innerHeight-200);
-  gift.style.left=x+"px";
-  gift.style.top=y+"px";
+/* ===== QUIZ ===== */
+const questions=[
+"Noel tới rồi, cảm giác của bạn là gì?",
+"Dạo này bạn ngủ có đủ không?",
+"Trời lạnh, bạn có nhớ giữ ấm không?",
+"Noel này, bạn muốn điều gì nhất?",
+"Tối nay… nghỉ một chút nhé?"
+];
+let q=0;
+
+function showQuestion(){
+  quizBox.innerHTML="";
+  if(q<questions.length){
+    quizBox.innerHTML=`
+      <h2>${questions[q]}</h2>
+      <div class="answer">Ừ</div>
+      <div class="answer">Cũng được</div>
+      <div class="answer">Không biết</div>
+      <div class="answer">...</div>
+    `;
+    document.querySelectorAll(".answer").forEach(a=>{
+      a.onclick=()=>{
+        document.querySelectorAll(".answer").forEach(x=>x.classList.add("disabled"));
+        setTimeout(()=>{ q++; showQuestion(); },1000);
+      }
+    });
+  }else{
+    quiz.style.display="none";
+    startGiftTroll();
+  }
 }
 
-function startGift(){
-  moveGift();
-  moveInterval=setInterval(moveGift,700);
+/* ===== GIFT TROLL ===== */
+const icons=["🎁","🍎","🧱","💣"];
+let gifts=[];
+let moveTimer;
 
-  setTimeout(()=>{
-    clearInterval(moveInterval);
-    msg.innerText="Được rồi.";
-    gift.style.display="none";
-    letterIcon.style.display="block";
-  },10000);
+function startGiftTroll(){
+  for(let i=0;i<7;i++){
+    const g=document.createElement("div");
+    g.className="gift";
+    g.innerText=icons[Math.floor(Math.random()*icons.length)];
+    g.onclick=()=>fakeClick(g);
+    document.body.appendChild(g);
+    gifts.push(g);
+  }
+  moveGifts();
+  moveTimer=setInterval(moveGifts,220);
+
+  setTimeout(endGift,10000);
 }
 
-letterIcon.onclick=()=>{
-  letterIcon.style.display="none";
-  music.play();
-  letter.style.display="flex";
-  showLines();
-}
-
-function showLines(){
-  lines.forEach((line,i)=>{
-    setTimeout(()=>line.classList.add("show"), i*1200);
+function moveGifts(){
+  gifts.forEach(g=>{
+    g.style.left=Math.random()*(innerWidth-50)+"px";
+    g.style.top=Math.random()*(innerHeight-50)+"px";
   });
+}
+
+function fakeClick(g){
+  // đứng hình giả
+  freeze.style.display="block";
+  setTimeout(()=>freeze.style.display="none",1500);
+
+  alert("❌ Sai rồi 😛");
+  g.innerText=icons[Math.floor(Math.random()*icons.length)];
+}
+
+function endGift(){
+  clearInterval(moveTimer);
+  gifts.forEach(g=>g.remove());
+  mail.style.display="block";
+}
+
+/* ===== LETTER ===== */
+const lines=[
+"🎄 Giáng Sinh tới rồi.",
+"",
+"🤷‍♂️ T không biết m ổn hay không.",
+"",
+"⏸️ Nhưng thôi, tối nay nghỉ một chút đi.",
+"",
+"❄️ Trời lạnh.",
+"🧥 Nhớ giữ ấm.",
+"",
+"🎁 Noel bình an."
+];
+
+mail.onclick=()=>{
+  letter.style.display="flex";
+  let i=0;
+  letterText.innerHTML="";
+  const run=setInterval(()=>{
+    if(i<lines.length){
+      letterText.innerHTML+=lines[i]+"<br>";
+      i++;
+    }else clearInterval(run);
+  },650);
+};
+
+/* ===== SNOW ===== */
+function startSnow(){
+  for(let i=0;i<30;i++){
+    const s=document.createElement("div");
+    s.className="snow";
+    s.innerText="❄";
+    s.style.left=Math.random()*100+"vw";
+    s.style.fontSize=10+Math.random()*10+"px";
+    s.style.animationDuration=5+Math.random()*6+"s";
+    document.body.appendChild(s);
+  }
 }
 </script>
 
