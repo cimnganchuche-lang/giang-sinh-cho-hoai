@@ -2,298 +2,212 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>🎄 Noel Bình An</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>🎄 Quà Giáng Sinh 🎁</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box}
 body{
   margin:0;
   height:100vh;
-  background:#1b1b1b;
+  background:linear-gradient(135deg,#ff9acb,#ffd6e3);
+  display:flex;
+  justify-content:center;
+  align-items:center;
   font-family:"Segoe UI",sans-serif;
   overflow:hidden;
-  color:#fff;
 }
 
-/* LOGIN */
+/* ===== LOGIN ===== */
 #login{
-  position:absolute;inset:0;
-  display:flex;justify-content:center;align-items:center;
+  background:white;
+  padding:26px;
+  border-radius:22px;
+  text-align:center;
+  width:90%;
+  max-width:330px;
+  box-shadow:0 15px 40px rgba(255,90,150,.35);
 }
-#loginBox{
-  background:#fff;color:#333;
-  padding:25px;border-radius:18px;
-  width:90%;max-width:320px;text-align:center;
+#login h3{margin-bottom:16px;color:#ff4f8b}
+#login input{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:2px solid #ff7aa2;
+  font-size:16px;
 }
-#loginBox input{
-  width:100%;padding:12px;
-  border-radius:10px;border:2px solid #ff7aa2;
-}
-#loginBox button{
-  margin-top:15px;
-  padding:10px 25px;
-  border:none;border-radius:20px;
-  background:#ff5c8a;color:#fff;
+#login button{
+  margin-top:16px;
+  padding:12px 30px;
+  border:none;
+  border-radius:25px;
+  background:#ff4f8b;
+  color:white;
+  font-size:16px;
 }
 
-/* QUIZ */
-#quiz{
-  position:absolute;inset:0;
-  display:none;justify-content:center;align-items:center;
-  padding:20px;text-align:center;
+/* ===== MAIN ===== */
+#main{
+  display:none;
+  width:100%;
+  height:100%;
+  position:relative;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right)
+          env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
-#quizBox{max-width:360px}
-.answer{
-  margin-top:12px;padding:10px;
-  border-radius:20px;
-  background:rgba(255,255,255,.15);
-}
-.answer.disabled{opacity:.4;pointer-events:none}
 
-/* GIFT */
-.gift{
+/* ===== GIFT ===== */
+#giftBtn{
   position:absolute;
-  font-size:38px;
+  padding:16px 30px;
+  border-radius:40px;
+  border:none;
+  background:white;
+  color:#ff3b7a;
+  font-size:18px;
+  font-weight:700;
   cursor:pointer;
-  user-select:none;
+  transition:.25s ease;
+  box-shadow:0 10px 25px rgba(255,60,130,.4);
 }
 
-/* FAKE FREEZE */
-#freeze{
-  position:absolute;inset:0;
-  background:rgba(0,0,0,.2);
-  display:none;
-  z-index:99;
-}
-
-/* SANTA */
-#santa{
+/* NOEL */
+#noel{
   position:absolute;
-  font-size:48px;
   top:20%;
-  left:-100px;
+  left:-120px;
+  font-size:56px;
   display:none;
-  z-index:50;
-  animation:santaRun 6s linear forwards;
+  animation:noelRun 6s linear forwards;
 }
-@keyframes santaRun{
+@keyframes noelRun{
   from{left:-120px}
   to{left:110%}
 }
 
-/* MAIL */
-#mail{
-  position:absolute;
-  font-size:42px;
-  display:none;
-  left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  cursor:pointer;
-}
-
 /* LETTER */
 #letter{
-  position:absolute;inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;justify-content:center;align-items:center;
+  display:none;
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  justify-content:center;
+  align-items:center;
 }
 #letterBox{
-  background:#fff;color:#333;
-  padding:25px;border-radius:20px;
+  background:white;
+  padding:28px;
+  border-radius:22px;
   max-width:340px;
+  text-align:center;
+  animation:pop .4s ease;
 }
-#letterBox p{line-height:1.7}
+@keyframes pop{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+#letterBox h2{color:#ff3b7a}
+#letterBox p{line-height:1.6}
 
-/* SNOW */
-.snow{
+/* FIREWORK */
+.fire{
   position:absolute;
-  animation:snowFall linear infinite;
+  width:12px;
+  height:12px;
+  background:gold;
+  border-radius:50%;
+  animation:boom 1s ease-out forwards;
 }
-@keyframes snowFall{
-  from{transform:translateY(-10px)}
-  to{transform:translateY(110vh)}
+@keyframes boom{
+  from{transform:scale(1);opacity:1}
+  to{transform:scale(6);opacity:0}
 }
 </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
-  <source src="nhac.mp3" type="audio/mpeg">
-</audio>
-
-<div id="freeze"></div>
-<div id="santa">🧑‍🎄</div>
-
-<!-- LOGIN -->
 <div id="login">
-  <div id="loginBox">
-    <h3>🔐 Nhập mật khẩu</h3>
-    <input id="pass" type="password" placeholder="Mật khẩu">
-    <button onclick="checkPass()">VÀO</button>
+  <h3>🔐 Nhập mật khẩu</h3>
+  <input type="password" id="pass" placeholder="Mật khẩu">
+  <button onclick="checkPass()">VÀO</button>
+</div>
+
+<div id="main">
+  <button id="giftBtn">🎁 MỞ QUÀ</button>
+  <div id="noel">🧑‍🎄</div>
+
+  <div id="letter">
+    <div id="letterBox">
+      <h2>🎄 Giáng Sinh Vui Vẻ Nhé</h2>
+      <p>
+        Mong bạn bớt mệt đầu một chút,<br>
+        sống chậm lại một xíu thôi.<br><br>
+        Vui khi cần, nghỉ khi mệt,<br>
+        không cần phải cố gồng 💗<br><br>
+        <b>Web này dành riêng cho Hoài 🎁</b>
+      </p>
+    </div>
   </div>
 </div>
 
-<!-- QUIZ -->
-<div id="quiz">
-  <div id="quizBox"></div>
-</div>
-
-<!-- MAIL -->
-<div id="mail">✉️</div>
-
-<!-- LETTER -->
-<div id="letter">
-  <div id="letterBox">
-    <h3>🎄 Noel Bình An</h3>
-    <p id="letterText"></p>
-  </div>
-</div>
+<audio id="music" src="nhac.mp3" loop></audio>
 
 <script>
-/* ===== CONFIG ===== */
-const PASSWORD="22082012Hoai";
-const music=document.getElementById("music");
-const santa=document.getElementById("santa");
+const PASSWORD = "22082012Hoai";
+let count = 0;
 
-/* ===== LOGIN ===== */
+const gift = document.getElementById("giftBtn");
+const music = document.getElementById("music");
+const noel = document.getElementById("noel");
+const letter = document.getElementById("letter");
+
 function checkPass(){
-  if(pass.value===PASSWORD){
+  if(pass.value === PASSWORD){
     login.style.display="none";
-    quiz.style.display="flex";
-    music.play();
-    startSnow();
-    showQuestion();
-  }else alert("Sai mật khẩu 😛");
+    main.style.display="block";
+    moveGift();
+  }else alert("Sai mật khẩu rồi 😛");
 }
 
-/* ===== QUIZ ===== */
-const questions=[
-"Noel tới rồi, cảm giác của bạn là gì?",
-"Dạo này bạn ngủ có đủ không?",
-"Trời lạnh, bạn có nhớ giữ ấm không?",
-"Noel này, bạn muốn điều gì nhất?",
-"Tối nay… nghỉ một chút nhé?"
-];
-let q=0;
+function moveGift(){
+  const maxX = window.innerWidth - gift.offsetWidth - 20;
+  const maxY = window.innerHeight - gift.offsetHeight - 40;
+  gift.style.left = Math.random()*maxX + "px";
+  gift.style.top = Math.random()*maxY + "px";
+}
 
-function showQuestion(){
-  quizBox.innerHTML="";
-  if(q<questions.length){
-    quizBox.innerHTML=`
-      <h2>${questions[q]}</h2>
-      <div class="answer">Ừ</div>
-      <div class="answer">Cũng được</div>
-      <div class="answer">Không biết</div>
-      <div class="answer">...</div>
-    `;
-    document.querySelectorAll(".answer").forEach(a=>{
-      a.onclick=()=>{
-        document.querySelectorAll(".answer").forEach(x=>x.classList.add("disabled"));
-        setTimeout(()=>{ q++; showQuestion(); },1000);
-      }
-    });
-  }else{
-    quiz.style.display="none";
-    startGiftTroll();
+gift.addEventListener("click",()=>{
+  count++;
+
+  // đảm bảo nhạc chạy trên iOS
+  music.play().catch(()=>{});
+
+  moveGift();
+  gift.style.transform = `scale(${Math.max(.45,1-count*.07)})`;
+
+  if(count===3 || count===6){
+    noel.style.display="block";
+    noel.style.animation="none";
+    void noel.offsetWidth;
+    noel.style.animation="noelRun 6s linear forwards";
   }
-}
 
-/* ===== GIFT TROLL ===== */
-const icons=["🎁","🍎","🧱","💣"];
-let gifts=[], moveTimer, santaCount=0;
-
-function startGiftTroll(){
-  for(let i=0;i<7;i++){
-    const g=document.createElement("div");
-    g.className="gift";
-    g.innerText=icons[Math.floor(Math.random()*icons.length)];
-    g.onclick=()=>fakeClick(g);
-    document.body.appendChild(g);
-    gifts.push(g);
+  if(count>=10){
+    gift.style.display="none";
+    fireworks();
+    setTimeout(()=>letter.style.display="flex",900);
   }
-  moveGifts();
-  moveTimer=setInterval(()=>{
-    moveGifts();
+});
 
-    // cho ông già Noel chạy ngẫu nhiên
-    if(Math.random()<0.1 && santaCount<3){
-      runSanta();
-      santaCount++;
-    }
-
-  },220);
-
-  setTimeout(endGift,10000);
-}
-
-function moveGifts(){
-  gifts.forEach(g=>{
-    g.style.left=Math.random()*(innerWidth-50)+"px";
-    g.style.top=Math.random()*(innerHeight-50)+"px";
-  });
-}
-
-function fakeClick(g){
-  freeze.style.display="block";
-  setTimeout(()=>freeze.style.display="none",1500);
-  alert("❌ Sai rồi 😛");
-  g.innerText=icons[Math.floor(Math.random()*icons.length)];
-}
-
-function endGift(){
-  clearInterval(moveTimer);
-  gifts.forEach(g=>g.remove());
-  mail.style.display="block";
-}
-
-/* ===== SANTA ===== */
-function runSanta(){
-  santa.style.display="block";
-  santa.style.top=Math.random()*60+10+"%";
-  santa.style.animation="none";
-  void santa.offsetWidth;
-  santa.style.animation="santaRun 6s linear forwards";
-  setTimeout(()=>santa.style.display="none",6000);
-}
-
-/* ===== LETTER ===== */
-const lines=[
-"🎄 Giáng Sinh tới rồi.",
-"",
-"🤷‍♂️ T không biết m ổn hay không.",
-"",
-"⏸️ Nhưng thôi, tối nay nghỉ một chút đi.",
-"",
-"❄️ Trời lạnh.",
-"🧥 Nhớ giữ ấm.",
-"",
-"🎁 Noel bình an."
-];
-
-mail.onclick=()=>{
-  letter.style.display="flex";
-  let i=0;
-  letterText.innerHTML="";
-  const run=setInterval(()=>{
-    if(i<lines.length){
-      letterText.innerHTML+=lines[i]+"<br>";
-      i++;
-    }else clearInterval(run);
-  },650);
-};
-
-/* ===== SNOW ===== */
-function startSnow(){
-  for(let i=0;i<30;i++){
-    const s=document.createElement("div");
-    s.className="snow";
-    s.innerText="❄";
-    s.style.left=Math.random()*100+"vw";
-    s.style.fontSize=10+Math.random()*10+"px";
-    s.style.animationDuration=5+Math.random()*6+"s";
-    document.body.appendChild(s);
+function fireworks(){
+  for(let i=0;i<45;i++){
+    const f=document.createElement("div");
+    f.className="fire";
+    f.style.left=Math.random()*innerWidth+"px";
+    f.style.top=Math.random()*innerHeight+"px";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
   }
 }
 </script>
